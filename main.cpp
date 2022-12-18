@@ -5,16 +5,65 @@
 
 #include "mbed.h"
 
-#define WAIT_TIME_MS 500 
+DigitalIn boton1(PC_13);
 DigitalOut led1(LED1);
+Timer timer;
+
+void funcionParpadeo1000msec(){
+    led1=!led1;
+    wait_us(1000000);
+    if(boton==0){
+        timer.reset();
+        timer.start();
+        while(boton==0||timer.elapsedtime().count()<1000){
+
+        }
+        timer.stop();
+        estado=Parpadeo500msec;
+        }
+
+    }
+
+void funcionParpadeo500msec(){
+    led1=!led1;
+    wait_us(500000);
+    if(boton==0){
+        timer.reset();
+        timer.start();
+        while(boton==0||timer.elapsedtime().count()<1000){
+
+        }
+        timer.stop();
+        estado=Parpadeo250msec;
+        }
+}
+void funcionParpadeo250msec(){
+    led1=!led1;
+    wait_us(250000);
+    if(boton==0){
+        timer.reset();
+        timer.start();
+        while(boton==0||timer.elapsedtime().count()<1000){
+
+        }
+        timer.stop();
+        estado=Parpadeo1000msec;
+        }
+}
 
 int main()
-{
-    printf("This is the bare metal blinky example running on Mbed OS %d.%d.%d.\n", MBED_MAJOR_VERSION, MBED_MINOR_VERSION, MBED_PATCH_VERSION);
-
-    while (true)
-    {
-        led1 = !led1;
-        thread_sleep_for(WAIT_TIME_MS);
+{   
+ while(1) {
+    estado=Parpadeo1000msec;
+    switch(estado) {
+            case Parpadeo1sec;
+                funcionParpadeo1000msec();
+                break;
+            case Parpadeo500msec;
+                funcionParpadeo500msec();
+                break;
+            case Parpadeo250msec;
+                funcionParpadeo250msec();
+                break;
     }
 }
